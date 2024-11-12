@@ -28,5 +28,12 @@ jobs:
     - name: Build with Maven
       run: |
         mvn package assembly:single
-        ls ./target/
-        
+    - name: Upload binaries to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: target/dbeaver-agent*
+          tag: ${{ github.ref }}
+          overwrite: true
+          file_glob: true
+          draft: false #编译完成后 会自动发布到release
